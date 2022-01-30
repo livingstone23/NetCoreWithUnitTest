@@ -8,10 +8,15 @@ using NUnit.Framework;
 
 namespace EFCoreNUnitTest
 {
+
+
     [TestFixture]
     public class CustomerNUnitTests
     {
+        
+
         private Customer customer;
+
 
         /// <summary>
         /// Metodo para inicializar la clases que utiliza el atributo [SetUp]
@@ -21,8 +26,11 @@ namespace EFCoreNUnitTest
         {
             customer = new Customer();
         }
+        
 
-
+        /// <summary>
+        /// Using Assert.Multiple
+        /// </summary>
         [Test]
         public void CombineName_InputFirstAndLastName_ReturnFullName()
         {
@@ -55,6 +63,82 @@ namespace EFCoreNUnitTest
 
             //assert
             Assert.IsNull(customer.GreetMessage);
+        }
+
+
+        /// <summary>
+        /// Using InRange
+        /// </summary>
+        [Test]
+        public void DiscountCheck_DefaultCustomer_ReturnsDiscountInRange()
+        {
+            int result = customer.Discount;
+            Assert.That(result, Is.InRange(10, 25));
+        }
+
+
+        /// <summary>
+        /// Probando metodo que requiere al menos primer nombre
+        /// </summary>
+        [Test]
+        public void GreetMessage_GreetedWithoutLastName_ReturnsNotNull()
+        {
+            customer.GreetAndCombineNames("ben", "");
+
+            Assert.IsNotNull(customer.GreetMessage);
+
+            Assert.IsFalse(string.IsNullOrEmpty(customer.GreetMessage));
+
+        }
+        
+
+        /// <summary>
+        /// Manejando excepciones
+        /// </summary>
+        [Test]
+        public void GreetChecker_EmptyFirstName_ThrowsException()
+        {
+
+            //Realizamos la captura de la excepcion.
+            var exceptionDetails = Assert.Throws<ArgumentException>(() => customer.GreetAndCombineNames("", "Spark"));
+            //Comparamos las excepciones con el control esperado.
+            Assert.AreEqual("Empty First Name", exceptionDetails.Message);
+
+            //Segunda forma de controlar la misma excepcion.
+            Assert.That(() => customer.GreetAndCombineNames("", "spark"),
+                Throws.ArgumentException.With.Message.EqualTo("Empty First Name"));
+
+
+            //Controlamos solo que se genera la excepcion.
+            Assert.Throws<ArgumentException>(() => customer.GreetAndCombineNames("", "Spark"));
+
+            //Segunda forma de confirmar que se genera la excepcion.
+            Assert.That(() => customer.GreetAndCombineNames("", "spark"),
+                Throws.ArgumentException);
+        }
+
+
+        /// <summary>
+        /// Testing Setup inheritance  (Herencia de configuración)
+        /// </summary>
+        [Test]
+        public void CustomerType_CreateCustomerWithLessThan100Order_ReturnBasicCustomer()
+        {
+            customer.OrderTotal = 10;
+            var result = customer.GetCustomerDetails();
+            Assert.That(result, Is.TypeOf<BasicCustomer>());
+        }
+
+
+        /// <summary>
+        ///  Testing Setup inheritance  (Herencia de configuración)
+        /// </summary>
+        [Test]
+        public void CustomerType_CreateCustomerWithMoreThan100Order_ReturnBasicCustomer()
+        {
+            customer.OrderTotal = 110;
+            var result = customer.GetCustomerDetails();
+            Assert.That(result, Is.TypeOf<PlatinumCustomer>());
         }
 
 

@@ -9,6 +9,8 @@ namespace EFCore
     public class GradingCalculator
     {
         public int Score { get; set; }
+
+        //Porcentaje de asistencia
         public int AttendancePercentage { get; set; }
         public string GetGrade()
         {
