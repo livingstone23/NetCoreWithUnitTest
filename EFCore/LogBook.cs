@@ -67,6 +67,8 @@ namespace EFCore
             return message.ToLower();
         }
     }
+
+
     //public class LogFakker : ILogBook
     //{
     //    public void Message(string message)

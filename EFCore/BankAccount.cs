@@ -10,6 +10,7 @@ namespace EFCore
     {
 
         public int balance { get; set; }
+
         private readonly ILogBook _logBook;
         public BankAccount(ILogBook logBook)
         {
@@ -27,6 +28,7 @@ namespace EFCore
             return true;
         }
 
+        //retiros
         public bool Withrdraw(int amount)
         {
             if (amount <= balance)

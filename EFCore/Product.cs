@@ -21,6 +21,11 @@ namespace EFCore
             return Price;
         }
 
+        /// <summary>
+        /// Metodo para usarlo con Muck
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns></returns>
         public double GetPrice(ICustomer customer)
         {
             if (customer.IsPlatinum)
