@@ -18,6 +18,13 @@ namespace EFCore
             balance = 0;
         }
 
+
+
+        /// <summary>
+        /// 057-MOQ Verification
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         public bool Deposit(int amount)
         {
             _logBook.Message("Deposit invoked");
@@ -27,6 +34,8 @@ namespace EFCore
             balance += amount;
             return true;
         }
+
+
 
         //retiros
         public bool Withrdraw(int amount)
@@ -39,6 +48,8 @@ namespace EFCore
             }
             return _logBook.LogBalanceAfterWithdrawal(balance - amount);
         }
+
+
 
         public int GetBalance()
         {
